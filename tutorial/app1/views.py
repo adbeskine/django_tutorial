@@ -2,6 +2,7 @@
 
 from django.http import HttpResponse
 from .models import Question
+from django.template import loader
 
 def index(request):
 	return HttpResponse("You are in app1's index, let's learn Django!")
@@ -19,10 +20,19 @@ def vote(request, question_id):
 
 def index_generated_variables(request):
 	latest_question_list = Question.objects.order_by('pub_date')[:5]
-	output = ', '.join([q.question_text for q in latest_question_list])
+	output = ' '.join([q.question_text + '|||' for q in latest_question_list])
 	return HttpResponse(output)
 
 
-
+# 1. get the template
+# 2. define any variables used in the template (context)
+# 3. normal httpresponse with render method
+def index_html_longhand(request):
+	latest_question_list = Question.objects.order_by('pub_date')[:5]
+	template = loader.get_template('app1/index.html')
+	context={
+		'latest_question_list': latest_question_list,
+	}
+	return HttpResponse(template.render(context, request))
 
 # Create your views here.
