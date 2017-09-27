@@ -1,15 +1,26 @@
 # from django.shortcuts import render <- what's this?
 
-from django.http import HttpResponse
+from django.http import HttpResponse, Http404
 from .models import Question
 from django.template import loader
-from django.shortcuts import render
+from django.shortcuts import render, get_object_or_404
 
 def index(request):
 	return HttpResponse("You are in app1's index, let's learn Django!")
 
 def detail(request, question_id):
 	return HttpResponse("You're looking at question %s." % question_id)
+
+def detail_with_404(request, question_id):
+	try:
+		question = Question.objects.get(pk=question_id)
+	except Question.DoesNotExist:
+		raise Http404("Question does not exist")
+	return render(request, 'app1/detail.html', {'question': question})
+
+def detail_404_shortcut(request, question_id):
+	question = get_object_or_404(Question, pk=question_id)
+	return render(request, 'app1/detail.html', {'question': question})
 
 def results(request, question_id):
 	response="You're looking at the results of question %s."
@@ -36,10 +47,14 @@ def index_html_longhand(request):
 	}
 	return HttpResponse(template.render(context, request))
 
-
+# 1. define variables
+# 2. pass it into context format (note you can skip this and put a dictionary directly into the render method in step 3)
+# 3. render(request, template, context)
 def index_html_shorthand(request):
 	latest_question_list=Question.objects.order_by('pub_date')[:5]
 	context = {'latest_question_list' : latest_question_list,}
 	return render(request, 'app1/index.html', context)
+
+
 
 # Create your views here.
