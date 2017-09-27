@@ -3,6 +3,7 @@
 from django.http import HttpResponse
 from .models import Question
 from django.template import loader
+from django.shortcuts import render
 
 def index(request):
 	return HttpResponse("You are in app1's index, let's learn Django!")
@@ -34,5 +35,11 @@ def index_html_longhand(request):
 		'latest_question_list': latest_question_list,
 	}
 	return HttpResponse(template.render(context, request))
+
+
+def index_html_shorthand(request):
+	latest_question_list=Question.objects.order_by('pub_date')[:5]
+	context = {'latest_question_list' : latest_question_list,}
+	return render(request, 'app1/index.html', context)
 
 # Create your views here.
