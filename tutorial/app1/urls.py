@@ -24,5 +24,9 @@ url(r'^(?P<question_id>[0-9]+)/results/$', views.results, name='results'),
 url(r'^(?P<question_id>[0-9]+)/vote/$', views.vote, name='vote'),
 
 #-------------------------GENERIC VIEWS------------------------#
+
+url(r'^generic/$', views.IndexView.as_view(), name='genericIndex'),
+url(r'^generic/(?P<pk>[0-9]+)/$', views.DetailView.as_view(), name='genericDetail'),
+url(r'^generic/(?P<pk>[0-9]+)/results/$', views.ResultsView.as_view(), name='genericResults'),
 ]
 

@@ -77,9 +77,27 @@ def vote(request, question_id):
 		selected_choice.save()
 		return HttpResponseRedirect(reverse('app1:results', args=(question.id,)))
 
-#-----------------------------------------------------------------------------------#
+#---------------------------------------------------------------------------------------#
 
+#------------------------------GENERIC VIEWS -------------------------------------------#
 
+from django.views import generic
+
+class IndexView(generic.ListView):
+	template_name = 'app1/index.html'
+	context_object_name = 'latest_question_list'
+
+	def get_queryset(self):
+		"""Return the last five published questions."""
+		return Question.objects.order_by('-pub_date')[:5]
+
+class DetailView(generic.DetailView):
+	model = Question
+	template_name = 'app1/detail.html'
+
+class ResultsView(generic.DetailView):
+	model = Question
+	template_name = 'app1/results.html'
 
 
 # Create your views here.
