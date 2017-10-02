@@ -8,7 +8,7 @@ app_name = 'app1'
 urlpatterns = [
 # --------------- BASIC URLS ------------------------------------- #
 url(r'^$', views.index, name='app1index'),
-url(r'^(?P<question_id>[0-9]+)/$', views.detail, name='detail')
+url(r'^(?P<question_id>[0-9]+)/$', views.detail, name='detail'),
 
 # ---------------------- FUNCTIONAL -------------------------- #
 url(r'^indexgenvar/$', views.index_generated_variables, name='indexgenvar'),
