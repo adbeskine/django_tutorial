@@ -11,7 +11,7 @@ class Question(models.Model):
 		return now - datetime.timedelta(days=1) <= self.pub_date <= now
 
 	def __str__(self):
-		return 'question: ' + self.question_text + ' |date: ' + str(self.pub_date) 
+		return self.question_text
 
 class Choice(models.Model):
 	question = models.ForeignKey(Question, on_delete=models.CASCADE)
